@@ -13,7 +13,7 @@ import org.springframework.core.env.Environment;
 
 import com.alibaba.druid.pool.DruidDataSource;
 @Configuration
-@MapperScan(value="/mapper/*Mapper.xml")
+//@MapperScan(value="/mapper/*Mapper.xml")
 public class DruidDatasourceConfig implements EnvironmentAware{
 
 	 private RelaxedPropertyResolver propertyResolver; 
@@ -24,7 +24,7 @@ public class DruidDatasourceConfig implements EnvironmentAware{
 		this.propertyResolver = new RelaxedPropertyResolver(env, "spring.datasource.");  
 	}
 	
-    @Bean  
+/*    @Bean  
     public DataSource dataSource() {  
         DruidDataSource datasource = new DruidDataSource();  
         datasource.setUrl(propertyResolver.getProperty("url"));  
@@ -43,7 +43,7 @@ public class DruidDatasourceConfig implements EnvironmentAware{
             e.printStackTrace();  
         }  
         return datasource;  
-    }  
+    }  */
     
   
 /*    @Bean  
