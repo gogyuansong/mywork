@@ -1,51 +1,74 @@
 package com.myproject.datasouce;
 
+
+
 import java.sql.SQLException;
 
 import javax.sql.DataSource;
 
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.annotation.MapperScan;
-import org.springframework.boot.bind.RelaxedPropertyResolver;
-import org.springframework.context.EnvironmentAware;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.env.Environment;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.PropertySources;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 
 import com.alibaba.druid.pool.DruidDataSource;
 @Configuration
-//@MapperScan(value="/mapper/*Mapper.xml")
-public class DruidDatasourceConfig implements EnvironmentAware{
+@MapperScan(basePackages="com.myproject.dao", sqlSessionFactoryRef="slaveDatasourceFactory")
+@PropertySources(@PropertySource("classpath:datasource/master/master.properties"))
+public class SlaveDatasourceConfig{
 
-	 private RelaxedPropertyResolver propertyResolver; 
+	@Value("${spring.datasource.url}")
+	private String url;
 	
-	@Override
-	public void setEnvironment(Environment env) {
-		// TODO Auto-generated method stub
-		this.propertyResolver = new RelaxedPropertyResolver(env, "spring.datasource.");  
-	}
+	@Value("${spring.datasource.username}")	
+	private String userName;
 	
-/*    @Bean  
-    public DataSource dataSource() {  
+	@Value("${spring.datasource.password}")	
+	private String password;
+	
+	@Value("${spring.datasource.driver}")	
+	private String  driver;
+   @Bean 
+    public DataSource getDataSource() {  
+	   
         DruidDataSource datasource = new DruidDataSource();  
-        datasource.setUrl(propertyResolver.getProperty("url"));  
-        datasource.setDriverClassName(propertyResolver.getProperty("driver-class-name"));  
-        datasource.setUsername(propertyResolver.getProperty("username"));  
-        datasource.setPassword(propertyResolver.getProperty("password"));  
-        datasource.setInitialSize(Integer.valueOf(propertyResolver.getProperty("initialSize")));  
-        datasource.setMinIdle(Integer.valueOf(propertyResolver.getProperty("minIdle")));  
-        datasource.setMaxWait(Long.valueOf(propertyResolver.getProperty("maxWait")));  
-        datasource.setMaxActive(Integer.valueOf(propertyResolver.getProperty("maxActive")));  
-        datasource.setMinEvictableIdleTimeMillis(  
-                Long.valueOf(propertyResolver.getProperty("minEvictableIdleTimeMillis")));  
+        datasource.setUrl(url);  
+        datasource.setDriverClassName(driver);  
+        datasource.setUsername(userName);  
+        datasource.setPassword(password);  
+        datasource.setInitialSize(1);  
+        datasource.setMinIdle(1);  
+        datasource.setMaxWait(60000);  
+        datasource.setMaxActive(20);  
+        datasource.setMinEvictableIdleTimeMillis(300000);  
+        datasource.setValidationQuery("SELECT 'x' FROM DUAL");
         try {  
             datasource.setFilters("stat,wall");  
         } catch (SQLException e) {  
             e.printStackTrace();  
         }  
         return datasource;  
-    }  */
-    
-  
+    }
+   
+   @Bean(name="slaveTransactionManager")
+   public DataSourceTransactionManager masterTransactionManager(){
+	   return new DataSourceTransactionManager(getDataSource());
+   }
+   
+   @Bean(name="slaveDatasourceFactory")
+   public SqlSessionFactory slaveDatasourceFactory(DataSource slaveDataSource) throws Exception{
+	   SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
+	   bean.setDataSource(slaveDataSource);
+	   bean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath:mapper/*Mapper.xml"));
+	   return bean.getObject();
+   }
+   
 /*    @Bean  
     public ServletRegistrationBean druidServlet() {  
         ServletRegistrationBean servletRegistrationBean = new ServletRegistrationBean();  
