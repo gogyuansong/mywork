@@ -19,8 +19,8 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 
 import com.alibaba.druid.pool.DruidDataSource;
 @Configuration
-@MapperScan(basePackages="com.myproject.dao", sqlSessionFactoryRef="slaveDatasourceFactory")
-@PropertySources(@PropertySource("classpath:datasource/master/master.properties"))
+@MapperScan(basePackages="com.myproject.dao.slave", sqlSessionFactoryRef="slaveDatasourceFactory")
+@PropertySources(@PropertySource("classpath:datasource/slave/slave.properties"))
 public class SlaveDatasourceConfig{
 
 	@Value("${spring.datasource.url}")
@@ -65,7 +65,7 @@ public class SlaveDatasourceConfig{
    public SqlSessionFactory slaveDatasourceFactory(DataSource slaveDataSource) throws Exception{
 	   SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
 	   bean.setDataSource(slaveDataSource);
-	   bean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath:mapper/*Mapper.xml"));
+	   bean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath:mapper/slave/*Mapper.xml"));
 	   return bean.getObject();
    }
    

@@ -7,6 +7,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -18,6 +20,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.google.gson.Gson;
+import com.myproject.service.TestService;
 
 import io.swagger.annotations.ApiOperation;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
@@ -27,7 +30,15 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 public class TestController {
 
-	@ApiOperation("接口测试嘞01")
+	//swagger访问页面
+	//http://localhost:8088/swagger-ui.html
+	
+	private static String propertiesValue01;
+	
+	@Autowired
+	TestService testService;
+	
+	@ApiOperation(value="测试接口", notes="test01")
 	@RequestMapping(value = "/test01", method = RequestMethod.POST)
 	@ResponseBody
 	public String test01(@RequestParam(required = true, name = "name", defaultValue = "test") String name,
@@ -49,4 +60,17 @@ public class TestController {
 		list.add(map);
 		return new Gson().toJson(list);
 	}
+	
+	@ApiOperation("dao测试")
+	@RequestMapping(value = "/test02", method = RequestMethod.POST)
+	public String test01(){
+		testService.test();
+		return "test";
+	}
+	
+/*	//通过value注解向静态成员变量中赋值，需要使用非静态的set方法
+	@Value("${propertiesValue}")
+	public void sePropertiesValue01(String propertiesValue01){
+		this.propertiesValue01 = propertiesValue01;
+	}*/
 }

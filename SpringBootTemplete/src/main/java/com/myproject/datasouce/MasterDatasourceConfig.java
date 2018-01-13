@@ -20,7 +20,7 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 
 import com.alibaba.druid.pool.DruidDataSource;
 @Configuration
-@MapperScan(basePackages="com.myproject.dao", sqlSessionFactoryRef="masterDatasourceFactory")
+@MapperScan(basePackages="com.myproject.dao.master", sqlSessionFactoryRef="masterDatasourceFactory")
 @PropertySources(@PropertySource("classpath:datasource/master/master.properties"))
 public class MasterDatasourceConfig{
 
@@ -68,7 +68,7 @@ public class MasterDatasourceConfig{
    public SqlSessionFactory masterDatasourceFactory(DataSource masterDataSource) throws Exception{
 	   SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
 	   bean.setDataSource(masterDataSource);
-	   bean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath:mapper/*Mapper.xml"));
+	   bean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath:mapper/master/*Mapper.xml"));
 	   return bean.getObject();
    }
    
