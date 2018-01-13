@@ -23,21 +23,25 @@ import com.alibaba.druid.pool.DruidDataSource;
 @PropertySources(@PropertySource("classpath:datasource/slave/slave.properties"))
 public class SlaveDatasourceConfig{
 
-	@Value("${spring.datasource.url}")
+	@Value("${slave.datasource.url}")
 	private String url;
 	
-	@Value("${spring.datasource.username}")	
+	@Value("${slave.datasource.username}")	
 	private String userName;
 	
-	@Value("${spring.datasource.password}")	
+	@Value("${slave.datasource.password}")	
 	private String password;
 	
-	@Value("${spring.datasource.driver}")	
+	@Value("${slave.datasource.driver}")	
 	private String  driver;
-   @Bean 
+	@Bean(name = "slaveDataSource")
     public DataSource getDataSource() {  
-	   
         DruidDataSource datasource = new DruidDataSource();  
+        System.out.println("slave");
+        System.out.println(url);
+        System.out.println(driver);
+        System.out.println(userName);
+        System.out.println(password);
         datasource.setUrl(url);  
         datasource.setDriverClassName(driver);  
         datasource.setUsername(userName);  

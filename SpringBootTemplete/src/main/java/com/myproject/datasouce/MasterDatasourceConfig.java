@@ -24,21 +24,27 @@ import com.alibaba.druid.pool.DruidDataSource;
 @PropertySources(@PropertySource("classpath:datasource/master/master.properties"))
 public class MasterDatasourceConfig{
 
-	@Value("${spring.datasource.url}")
+	@Value("${master.datasource.url}")
 	private String url;
 	
-	@Value("${spring.datasource.username}")	
+	@Value("${master.datasource.username}")	
 	private String userName;
 	
-	@Value("${spring.datasource.password}")	
+	@Value("${master.datasource.password}")	
 	private String password;
 	
-	@Value("${spring.datasource.driver}")	
+	@Value("${master.datasource.driver}")	
 	private String  driver;
-   @Bean 
-   @Primary
+	
+	@Bean(name = "masterDataSource")
+    @Primary
     public DataSource getDataSource() {  
         DruidDataSource datasource = new DruidDataSource();  
+        System.out.println("master");
+        System.out.println(url);
+        System.out.println(driver);
+        System.out.println(userName);
+        System.out.println(password);
         datasource.setUrl(url);  
         datasource.setDriverClassName(driver);  
         datasource.setUsername(userName);  

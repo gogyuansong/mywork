@@ -64,8 +64,8 @@ public class TestController {
 	@ApiOperation("dao测试")
 	@RequestMapping(value = "/test02", method = RequestMethod.POST)
 	public String test01(){
-		testService.test();
-		return "test";
+		List<Map<String,Object>> list = testService.test();
+		return new Gson().toJson(list);
 	}
 	
 /*	//通过value注解向静态成员变量中赋值，需要使用非静态的set方法

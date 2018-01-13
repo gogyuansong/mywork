@@ -1,5 +1,8 @@
 package com.myproject.serviceImpl;
 
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,8 +17,7 @@ public class TestImpl implements TestService{
 	
 	@Transactional
 	@Override
-	public void test() {
-		testDao.test(null);
-		// TODO Auto-generated method stub
+	public List<Map<String,Object>> test(){
+		return testDao.test(null);
 	}
 }
