@@ -1,0 +1,21 @@
+{
+    "node01": {
+        "passWord": "root",
+        "userName": "root",
+        "driver": "com.mysql.jdbc.Driver",
+        "url": "jdbc:mysql://localhost:3306/master?useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true"
+    },
+    "node02": {
+        "passWord": "root",
+        "userName": "root",
+        "driver": "com.mysql.jdbc.Driver",
+        "url": "jdbc:mysql://localhost:3306/slave?useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true"
+ 
+    },
+    "node03": {
+        "passWord": "root",
+        "userName": "root",
+        "driver": "com.mysql.jdbc.Driver",
+        "url": "jdbc:mysql://localhost:3306/slave?useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true"
+     }
+}

@@ -68,6 +68,37 @@ public class TestController {
 		return new Gson().toJson(list);
 	}
 	
+	@ApiOperation("dao测试")
+	@RequestMapping(value = "/test03", method = RequestMethod.POST)
+	public String test03(){
+		List<Map<String,Object>> list = testService.dynamicTest();
+		return new Gson().toJson(list);
+	}
+	
+	public static void main(String[] args) {
+		Map<String,Object> map = new HashMap<String,Object>();
+		Map<String,Object> map01 = new HashMap<String,Object>();
+		map01.put("url", "url");
+		map01.put("driver", "driver");
+		map01.put("userName", "userName");
+		map01.put("passWord", "passWord01");
+		Map<String,Object> map02 = new HashMap<String,Object>();
+		map02.put("url", "url");
+		map02.put("driver", "driver");
+		map02.put("userName", "userName");
+		map02.put("passWord", "passWord01");
+		Map<String,Object> map03 = new HashMap<String,Object>();
+		map03.put("url", "url");
+		map03.put("driver", "driver");
+		map03.put("userName", "userName");
+		map03.put("passWord", "passWord01");
+		
+		map.put("node01", map01);
+		map.put("node02", map02);
+		map.put("node03", map03);
+		System.out.println(new Gson().toJson(map));
+	}
+	
 /*	//通过value注解向静态成员变量中赋值，需要使用非静态的set方法
 	@Value("${propertiesValue}")
 	public void sePropertiesValue01(String propertiesValue01){
