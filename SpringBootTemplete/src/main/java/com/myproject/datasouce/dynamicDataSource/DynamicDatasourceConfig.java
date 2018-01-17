@@ -29,7 +29,7 @@ public class DynamicDatasourceConfig {
 	private static Map<Object, Object> dynamicDataSourceMap = new HashMap<Object, Object>();
 
 	@Bean(name = "dynamicDataSource")
-	public DataSource getDataSource() {
+	public DynamicDataSource getDataSource() {
 		DynamicDataSource datasource = new DynamicDataSource();
 		datasource.setDefaultTargetDataSource(getDataSourceList());
 		datasource.setTargetDataSources(dynamicDataSourceMap);
@@ -37,14 +37,14 @@ public class DynamicDatasourceConfig {
 	}
 
 	@Bean(name = "dynamicTransactionManager")
-	public DataSourceTransactionManager dynamicTransactionManager() {
-		return new DataSourceTransactionManager(getDataSource());
+	public DataSourceTransactionManager dynamicTransactionManager(DynamicDataSource dataSource) {
+		return new DataSourceTransactionManager(dataSource);
 	}
 
 	@Bean(name = "dynamicDatasourceFactory")
-	public SqlSessionFactory dynamicDatasourceFactory(DynamicDataSource datasource) throws Exception {
+	public SqlSessionFactory dynamicDatasourceFactory(DynamicDataSource dataSource) throws Exception {
 		SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
-		bean.setDataSource(datasource);
+		bean.setDataSource(dataSource);
 		bean.setMapperLocations(
 				new PathMatchingResourcePatternResolver().getResources("classpath:mapper/dynamic/*Mapper.xml"));
 		return bean.getObject();

@@ -29,7 +29,7 @@ public class TestImpl implements TestService{
 	
 	@Override
 	public List<Map<String,Object>> dynamicTest(){
-		DynamicDataSourceContextHolder.setDataSourceType(DynamicDataSourceType.NODE_01);
+		DynamicDataSourceContextHolder.setDataSourceType(DynamicDataSourceType.NODE_02);
 		return dtestDao.test(null);
 	}
 }
