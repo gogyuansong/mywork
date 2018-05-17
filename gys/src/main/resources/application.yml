@@ -1,0 +1,5 @@
+server:
+  port: 8020
+custom:
+  baseDir: C:/gysgong/temp/test/
+  tempDir: C:/gysgong/temp/test/temp/
